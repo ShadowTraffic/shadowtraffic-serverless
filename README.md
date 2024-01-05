@@ -35,4 +35,8 @@ cdk bootstrap
 npx cdk deploy
 ```
 
-You'll now have a Lambda with a public URL. Invoke it to start ShadowTraffic.
+You'll now have a Lambda with a public URL. Invoke it to start ShadowTraffic, something like:
+
+```
+curl -G -v "https://your-url.on.aws/" --data-urlencode "bootstrapServers=xxx:9092" --data-urlencode "username=xxx" --data-urlencode "password=xxx"
+```
