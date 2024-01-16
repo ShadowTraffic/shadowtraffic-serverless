@@ -13,8 +13,23 @@ export class ShadowtrafficServerlessStack extends cdk.Stack {
 
         const vpc = new ec2.Vpc(this, 'ShadowTrafficVPC', {
             vpcName: 'ShadowTrafficVPC',
-            maxAzs: 2
+            maxAzs: 1,
+            subnetConfiguration: [
+                {
+                    cidrMask: 24,
+                    name: 'ShadowTraffic Subnet',
+                    subnetType: ec2.SubnetType.PUBLIC,
+                    mapPublicIpOnLaunch: true
+                }
+            ]
         });
+
+        const securityGroup = new ec2.SecurityGroup(this, 'ShadowTrafficSecurityGroup', {
+            vpc,
+            securityGroupName: 'ShadowTrafficSecurityGroup'
+        });
+
+        securityGroup.addEgressRule(ec2.Peer.anyIpv4(), ec2.Port.allTraffic(), 'Allow all outbound traffic');
 
         const cluster = new ecs.Cluster(this, 'ShadowTrafficCluster', {
             clusterName: 'ShadowTrafficCluster',
@@ -58,6 +73,10 @@ export class ShadowtrafficServerlessStack extends cdk.Stack {
 
         lambdaFunction.role?.addManagedPolicy(
             iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonEC2FullAccess")
-        );        
+        );
+
+        new cdk.CfnOutput(this, 'LambdaUrl', {
+            value: lambdaUrl.url
+        });
     }
 }
