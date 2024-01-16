@@ -41,7 +41,7 @@ export class ShadowtrafficServerlessStack extends cdk.Stack {
         });
 
         const logging = new ecs.AwsLogDriver({
-            streamPrefix: "ShadowTraffic",
+            streamPrefix: "ShadowTraffic"
         })
         
         const container = taskDefinition.addContainer('ShadowTraffic', {

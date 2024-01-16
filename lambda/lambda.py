@@ -21,10 +21,18 @@ def subnets_for_vpc(vpc_name):
 
     return subnets
 
+def security_group_for_vpc(vpc_name):
+    vpc_id = vpc_id_by_name(vpc_name)
+    response = ec2_client.describe_security_groups(Filters=[{'Name': 'vpc-id', 'Values': [vpc_id]},
+                                                            {'Name': 'group-name', 'Values': ['ShadowTrafficSecurityGroup']}])
+
+    return response['SecurityGroups'][0]['GroupId']
+
 def handler(event, context):
     cluster_name = 'ShadowTrafficCluster'
     task_definition = 'ShadowTrafficTaskDefinition'
     subnets = subnets_for_vpc('ShadowTrafficVPC')
+    security_group = security_group_for_vpc('ShadowTrafficVPC')
 
     response = ecs_client.list_tasks(
         cluster=cluster_name,
@@ -109,6 +117,9 @@ def handler(event, context):
         networkConfiguration={
             'awsvpcConfiguration': {
                 'subnets': subnets,
+                'securityGroups': [
+                    security_group
+                ],
                 'assignPublicIp': 'ENABLED'
             }
         }
