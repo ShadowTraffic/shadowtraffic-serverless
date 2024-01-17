@@ -24,15 +24,15 @@ def subnets_for_vpc(vpc_name):
 def security_group_for_vpc(vpc_name):
     vpc_id = vpc_id_by_name(vpc_name)
     response = ec2_client.describe_security_groups(Filters=[{'Name': 'vpc-id', 'Values': [vpc_id]},
-                                                            {'Name': 'group-name', 'Values': ['ShadowTrafficSecurityGroup']}])
+                                                            {'Name': 'group-name', 'Values': ['ShadowTraffic Security Group']}])
 
     return response['SecurityGroups'][0]['GroupId']
 
 def handler(event, context):
     cluster_name = 'ShadowTrafficCluster'
-    task_definition = 'ShadowTrafficTaskDefinition'
-    subnets = subnets_for_vpc('ShadowTrafficVPC')
-    security_group = security_group_for_vpc('ShadowTrafficVPC')
+    task_definition = 'ShadowTrafficRunner'
+    subnets = subnets_for_vpc('ShadowTraffic VPC')
+    security_group = security_group_for_vpc('ShadowTraffic VPC')
 
     response = ecs_client.list_tasks(
         cluster=cluster_name,
@@ -100,7 +100,7 @@ def handler(event, context):
     task_override = {
         'containerOverrides': [
             {
-                'name': 'ShadowTraffic',
+                'name': 'shadowtraffic',
                 'command': [
                     '--config-base64', encoded_config, '--sample', '10000',
                 ]
