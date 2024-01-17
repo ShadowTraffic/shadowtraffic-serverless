@@ -1,6 +1,6 @@
 # shadowtraffic-serverless
 
-Run ShadowTraffic by invoking a URL. Powered by Terraform
+Run ShadowTraffic by invoking a URL. Powered by Terraform.
 
 ## Up and running
 
