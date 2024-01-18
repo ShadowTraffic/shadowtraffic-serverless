@@ -63,4 +63,8 @@ def handler(event, context):
         }
     }
 
-    return aws.submit_task(cluster_name, subnets, security_group, task_definition, config)
+    response = aws.submit_task(cluster_name, subnets, security_group, task_definition, config)
+
+    return {
+        'statusCode': 200
+    }
