@@ -1,5 +1,5 @@
 import boto3
-import boto3
+import json
 import base64
 
 ec2_client = boto3.client('ec2')
