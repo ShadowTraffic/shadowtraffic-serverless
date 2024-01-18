@@ -221,7 +221,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution_role_attachmen
 
 data "archive_file" "lambda_source" {
   type = "zip"
-  source_file = "lambda/lambda.py"
+  source_dir = "lambda"
   output_path = "lambda.zip"
 }
 
@@ -277,4 +277,3 @@ resource "aws_lambda_permission" "api_gw" {
 output "http_api_url" {
   value = aws_apigatewayv2_api.http_api.api_endpoint
 }
-

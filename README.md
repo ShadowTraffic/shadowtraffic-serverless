@@ -15,7 +15,13 @@ export TF_VAR_LICENSE_EXPIRATION="XXX"
 export TF_VAR_LICENSE_SIGNATURE="XXX"
 ```
 
-📦 Navigate to this repo and apply the changes:
+📦 Navigate to this repo and init Terraform:
+
+```
+terraform init
+```
+
+🏗️ Apply the changes:
 
 ```
 terraform apply
